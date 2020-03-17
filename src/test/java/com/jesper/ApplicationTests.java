@@ -16,15 +16,15 @@ import java.io.FileInputStream;
 @SpringBootTest
 public class ApplicationTests {
 
-	@Autowired
-	private SalesOrderReturnChildMapper salesOrderReturnChildMapper;
+//	@Autowired
+//	private SalesOrderReturnChildMapper salesOrderReturnChildMapper;
 	@Test
 	public void contextLoads() {
-		SalesOrderReturnChild byProductId =new SalesOrderReturnChild();
-		byProductId = salesOrderReturnChildMapper.getByProductId(1);
-		System.out.println(byProductId==null);
-		byProductId.setProductId(1);
-		System.out.println(byProductId.getProductId());
+//		SalesOrderReturnChild byProductId =new SalesOrderReturnChild();
+//		byProductId = salesOrderReturnChildMapper.getByProductIdAndParentId(1);
+//		System.out.println(byProductId==null);
+//		byProductId.setProductId(1);
+//		System.out.println(byProductId.getProductId());
 	}
 
 	@Autowired
