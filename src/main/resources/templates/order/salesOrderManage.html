@@ -145,12 +145,10 @@
                                         <td>
                                             <a th:href="@{'tosaleForm?id='+${o.id}}" title="查看详情">查看详情</a>
                                         </td>
-                                        <td th:if="${o.ckcuStatus == 0}">
+                                        <td >
                                             <a th:href="@{'salesOrderCk?id='+${o.id}}" title="操作">操作</a>
                                         </td>
-                                        <td th:if="${o.ckcuStatus == 1}">
-                                            已出库
-                                        </td>
+
                                         <td>
 
 <!--                                            <button class="btn btn-primary" th:onclick="'javascript:updateState(\''+${o.id}+'\',2,0);'">删除</button>-->

@@ -216,4 +216,11 @@ public class SalesOrderController {
         Result result = salesOrderService.delete(id);
         return result;
     }
+
+    @ResponseBody
+    @PostMapping("user/saleOrderCkwc")
+    public Result saleOrderCkwc(Integer id) {
+        Result result = salesOrderService.saleOrderCkwc(id);
+        return result;
+    }
 }

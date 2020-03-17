@@ -360,14 +360,18 @@ public class SalesOrderServiceImpl implements SalesOrderService {
     public List<SalesOrderChild> getProduct(String id) {
         List<SalesOrderChild> list = salesOrderChildMapper.getByParentId(id);
 //        List<SalesOrderChild> notCkOrder = new ArrayList<>();
+        int state = 0;
         for (SalesOrderChild salesOrderChild : list) {
             if (salesOrderChild.getCkStatus() == 0) {
 //              salesOrderChild.setProduct();
                 salesOrderChild.setWarehousemanageList(warehousemangeService.getListByProductId(salesOrderChild.getProductId()));
 //                notCkOrder.add(salesOrderChild);
+                state++;
             }
         }
-
+        if (state==0){
+            updateCkStatus(id);
+        }
         return list;
     }
     @Transactional(rollbackFor = Exception.class)
@@ -414,9 +418,9 @@ public class SalesOrderServiceImpl implements SalesOrderService {
         product.setInventoryNumber(productNumber - saleNumber);
 
         salesOrderChild.setCkNumber(ckNumber + saleNumber);
-        if (salesOrderChild.getCkNumber().equals(number)) {
-            salesOrderChild.setCkStatus(1);
-        }
+//        if (salesOrderChild.getCkNumber().equals(number+salesOrderChild.getReturnNumber())) {
+//            salesOrderChild.setCkStatus(1);
+//        }
 
         ProductInstorge productInstorge = new ProductInstorge();
         productInstorge.setProductId(salesOrderChild.getProductId());
@@ -518,7 +522,7 @@ public class SalesOrderServiceImpl implements SalesOrderService {
 
         //退货单
         SalesOrderReturnChild salesOrderReturnChild = new SalesOrderReturnChild();
-        SalesOrderReturnChild baseSalesOrderReturnChild = salesOrderReturnChildMapper.getByProductId(productId);
+        SalesOrderReturnChild baseSalesOrderReturnChild = salesOrderReturnChildMapper.getByProductIdAndParentId(productId,salesOrderChild.getParentId());
         try {
             // todo
             if (baseSalesOrderReturnChild!=null){
@@ -598,5 +602,17 @@ public class SalesOrderServiceImpl implements SalesOrderService {
         }
         salesOrder.setReturnChildList(list);
         return salesOrder;
+    }
+
+    @Override
+    public Result saleOrderCkwc(Integer id) {
+        try {
+            int res = salesOrderChildMapper.saleOrderCkwc(id);
+            return Result.ok();
+        }catch (Exception e){
+            return Result.ofMessage(400,e.getMessage());
+        }
+
+
     }
 }

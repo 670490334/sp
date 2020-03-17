@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -149,7 +150,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         apiLog.setParams(purchaseOrder.toString());
         try {
             Integer number = purchaseOrder.getNumber();
-            if (number == null) number = 0;
+            if (number == null) return Result.ofMessage(400,"数量为空");
             //入库数量不为0
 //            if (number != 0) {
 //                Warehousemanage warehousemanage = warehousemangeMapper.getById(purchaseOrder.getInwarehouseId());
@@ -174,8 +175,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             purchaseOrder.setCreateTime(date);
 
             purchaseOrder.setPurchaseTime(date);
-
-            purchaseOrder.setPurchaseNumber("CGDD-" + date.getYear() + date.getMonth() + date.getDate() + "-" + purchaseOrder.getProductId());
+            if (purchaseOrder.getPurchaseNumber()==null || purchaseOrder.getPurchaseNumber().equals("")) {
+                purchaseOrder.setPurchaseNumber("CGDD-" + date.getYear() + date.getMonth() + date.getDate() + "-" + purchaseOrder.getProductId());
+            }
+            if (purchaseOrder.getTotalMoney()==null){
+                purchaseOrder.setTotalMoney(purchaseOrder.getAmount().multiply(new BigDecimal(purchaseOrder.getNumber())));
+            }
             purchaseOrderMapper.insert(purchaseOrder);
             apiLog.setSuccess(MyConfig.SUCCESS);
             return Result.ok();

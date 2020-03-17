@@ -2,6 +2,7 @@ package com.jesper.mapper;
 
 import com.jesper.hftc.entity.SalesOrderReturnChild;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public interface SalesOrderReturnChildMapper {
 
     void delete(String id);
 
-    SalesOrderReturnChild getByProductId(Integer productId);
+    SalesOrderReturnChild getByProductIdAndParentId(@Param("productId") Integer productId, @Param("parentId")String parentId);
 
     void updatenumber(SalesOrderReturnChild salesOrderReturnChild);
 }

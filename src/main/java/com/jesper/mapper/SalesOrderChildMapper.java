@@ -25,4 +25,5 @@ public interface SalesOrderChildMapper {
     void delete(String id);
 
 
+    int saleOrderCkwc(Integer id);
 }

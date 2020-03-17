@@ -30,6 +30,8 @@ public class Warehousemanage extends BaseObject {
 
     private String ck;
 
+    private String parentName;
+
     private String productName;
     @Override
     public String toString() {

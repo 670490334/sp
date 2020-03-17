@@ -64,4 +64,6 @@ public interface SalesOrderService {
     Result delete(String id);
 
     SalesOrder getReturnSaleForm(String id);
+
+    Result saleOrderCkwc(Integer id);
 }

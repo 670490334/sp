@@ -12,6 +12,7 @@
         <result column="remark" property="remark" jdbcType="INTEGER"/>
         <result column="ck_status" property="ckStatus" jdbcType="INTEGER"/>
         <result column="ck_number" property="ckNumber" jdbcType="INTEGER"/>
+        <result column="return_number" property="returnNumber" jdbcType="INTEGER"/>
         <result column="product_name" property="productName" jdbcType="VARCHAR"/>
     </resultMap>
 
@@ -59,5 +60,8 @@
         update sales_order_child set is_delete=1 where parent_id = #{id}
     </update>
 
+    <update id="saleOrderCkwc"  parameterType="integer" >
+        update sales_order_child set ck_status=1 where id = #{id}
+    </update>
 
 </mapper>

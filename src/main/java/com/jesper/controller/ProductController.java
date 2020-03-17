@@ -232,7 +232,7 @@ public class ProductController {
             return "product/instorge";
         }
         if (productInstorge.getTotalMoney()==null){
-            productInstorge.setTotalMoney(product.getPrice().multiply(new BigDecimal(productInstorge.getNumber())));
+            productInstorge.setTotalMoney(productInstorge.getPrice().multiply(new BigDecimal(productInstorge.getNumber())));
         }
         Result result = productService.instorgeProduct(productInstorge, product);
         if (result.getCode() == 200) {
