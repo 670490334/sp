@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jesper.mapper.WareHouseParentMapper">
+    <resultMap id="BaseResultMap" type="com.jesper.hftc.entity.WareHouseParent">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="w_name" property="name" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getList" resultMap="BaseResultMap" >
+    select * from   warehouse_parent where  is_delete = 0 order by id desc
+    </select>
+    <select id="getLists" resultMap="BaseResultMap" parameterType="com.jesper.hftc.entity.WareHouseParent">
+    select * from   warehouse_parent where  is_delete = 0 order by id desc limit #{start},#{end}
+    </select>
+
+    <update id="delete" parameterType="integer">
+        update warehouse_parent set is_delete = 1 where id = #{id}
+    </update>
+
+    <insert id="add" parameterType="com.jesper.hftc.entity.WareHouseParent">
+        insert into warehouse_parent(w_name,address,remark) values (#{name},#{address},#{remark})
+    </insert>
+
+    <select id="getById" parameterType="integer" resultMap="BaseResultMap">
+        select * from warehouse_parent where id =#{id}
+    </select>
+
+    <update id="update" parameterType="com.jesper.hftc.entity.WareHouseParent">
+        update warehouse_parent set w_name = #{name}, address = #{address} where id =#{id}
+    </update>
+    <select id="count" resultType="int">
+        select count(*) from warehouse_parent where is_delete = 0;
+    </select>
+</mapper>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <title>后台信息管理系统</title>
+
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/font-awesome/css/font-awesome.css}" rel="stylesheet"/>
+
+    <!-- Toastr style -->
+    <link th:href="@{/css/plugins/toastr/toastr.min.css}" rel="stylesheet"/>
+
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+
+    <!-- summernote style -->
+    <link th:href="@{/css/plugins/summernote/summernote.css}" rel="stylesheet"/>
+    <link th:href="@{/css/plugins/summernote/summernote-bs3.css}" rel="stylesheet"/>
+
+</head>
+
+<body>
+
+<div id="wrapper">
+    <nav class="navbar-default navbar-static-side" role="navigation" th:include="nav :: navigation"></nav>
+    <div id="page-wrapper" class="gray-bg">
+        <div class="border-bottom" th:include="header :: headerTop"></div>
+        <div class="row wrapper border-bottom white-bg page-heading" th:fragment="headerNav">
+            <div class="col-lg-10">
+                <h2>商品管理</h2>
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="#">首页</a>
+                    </li>
+                    <li>
+                        <a>商品管理</a>
+                    </li>
+                    <li>
+                        <a>商品管理</a>
+                    </li>
+                    <li class="active">
+                        <strong>商品详情</strong>
+                    </li>
+                </ol>
+            </div>
+            <div class="col-lg-2">
+            </div>
+        </div>
+        <div class="wrapper wrapper-content animated fadeInRight">
+
+            <div class="container">
+                <h2 th:text="${product.productName}"></h2>
+                <p class="text-left cm-strong">编号：<span th:text="${product.productNumber}"></span> <span
+                        style="padding-left: 15%" th:text="${'色号：'+product.color}"></span> <span
+                        style="padding-left: 15%" th:text="${'批号：'+product.pihao}"></span></p>
+                <p class="text-left cm-strong">规格型号：<span th:text="${product.specifications}"></span> <span
+                        style="padding-left: 15%" th:text="${'单位：'+product.unit}"></span> <span
+                        style="padding-left: 15%"
+                        th:text="${'单价：'+product.price}"></span></p>
+                <p class="text-left cm-strong">库存：<span th:text="${product.inventoryNumber}"></span> <span
+                        style="padding-left: 15%" th:text="${'出库：'+product.saleNumber}"></span> <span
+                        style="padding-left: 15%" th:text="${'损耗：'+product.lossNumber}"></span></p>
+                <p class="text-justify" th:text="${'备注：'+product.remark}"></p>
+
+            </div>
+
+        </div>
+        <div class="footer" th:include="footer :: copyright"></div>
+    </div>
+</div>
+
+<!-- Mainly scripts -->
+<script th:src="@{/js/jquery-2.1.1.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+
+<!-- Peity -->
+<script th:src="@{/js/plugins/peity/jquery.peity.min.js}"></script>
+
+<!-- Custom and plugin javascript -->
+<script th:src="@{/js/inspinia.js}"></script>
+<script th:src="@{/js/plugins/pace/pace.min.js}"></script>
+
+<!-- Toastr script -->
+<script th:src="@{/js/plugins/toastr/toastr.min.js}"></script>
+
+<!-- common -->
+<script th:src="@{/js/common.js}"></script>
+
+<!-- SUMMERNOTE -->
+<script th:src="@{/js/plugins/summernote/summernote.min.js}"></script>
+
+
+<!--<script th:inline="javascript">-->
+<!--    var image = [[${item.image}]];-->
+<!--    $(document).ready(function () {-->
+<!--        if (image == null || image == "") {-->
+<!--            $("#imageCell").hide();-->
+<!--            $("#imputCell").show();-->
+<!--        } else {-->
+<!--            $("#imageCell").show();-->
+<!--            $("#imputCell").hide();-->
+<!--        }-->
+<!--        $("#imageCellBut").click(function () {-->
+<!--            $("#imageCell").hide();-->
+<!--            $("#imputCell").show();-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
+<script th:inline="javascript">
+    $(document).ready(function () {
+        //初始化编辑器
+        $('#summernote').summernote({
+            height: 300,
+            codemirror: {
+                mode: 'text/html',
+                htmlMode: true,
+                lineNumbers: true,
+                theme: 'monokai'
+            }
+        });
+
+        //编辑器赋值
+        function ckProPrice() {
+            //判断商品价格
+            var reg = /(^[-+]?[1-9]\d*(\.\d{1,2})?$)|(^[-+]?[0]{1}(\.\d{1,2})?$)/;
+            if ($("#price").val() == "") {
+                toastr.error("商品价格不能为空", '提示');
+                return false;
+            } else {
+                if (!reg.test($("#price").val())) {
+                    toastr.error("单价必须为合法数字(正数，最多两位小数)！", '提示');
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
+        //提交
+        $("#submitButton").click(function () {
+            if ($("#productName").val() == "") {
+                toastr.error('请输入商品标题', '提示');
+                return;
+            }
+            if ($("#productCategoryName").val() == "") {
+                toastr.error('请选择商品分类', '提示');
+                return;
+            }
+            if (!ckProPrice()) {
+                return;
+            }
+            if ($("#productNumber").val() == "") {
+                toastr.error('请输入商品编号', '提示');
+                return;
+            }
+            if ($("#specifications").val() == "") {
+                toastr.error('请输入规格型号', '提示');
+                return;
+            }
+            if ($("#color").val() == "") {
+                toastr.error('请输入色号', '提示');
+                return;
+            }
+            $("#formTag").submit();
+        });
+    });
+
+    function checkRate(nubmer) {
+        //判断正整数/[1−9]+[0−9]∗]∗/
+        var re = /^[0-9]+.?[0-9]*/;//
+        if (!re.test(nubmer)) {
+            return false;
+        }
+        return true;
+    }
+
+    /*<![CDATA[*/
+    function sale(id, state, commendState) {
+        var deleteTag;
+        if (state == 2) {
+            deleteTag = confirm("确定出库?");
+        } else {
+            deleteTag = false;
+        }
+        if (!deleteTag) {
+            return;
+        }
+        var warehouseId = $("#warehouseId").val();
+        if (warehouseId == 0) {
+            toastr.error('请选择仓库', '提示');
+            return;
+        }
+        //todo
+        var saleNumber = $("#baseNumber").val();
+        if (!checkRate(saleNumber)) {
+            toastr.error('请输入正整数', '提示');
+            return;
+        }
+        if (deleteTag) {
+            $.ajax({
+                type: "POST",
+                url: "productSale?id=" + id + "&warehouseId=" + warehouseId + "&saleNumber=" + saleNumber,
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    if (msg.code == 200) {
+                        alert('操作成功')
+                        window.location.reload();
+                    } else {
+                        toastr.warning(msg.message);
+                    }
+                },
+                error: function () {
+                    toastr.error("系统异常！");
+                }
+            });
+        }
+    }
+
+    function loss(id, state, commendState) {
+        var deleteTag;
+        if (state == 2) {
+            deleteTag = confirm("确定损耗?");
+        } else {
+            deleteTag = true;
+        }
+        if (!deleteTag) {
+            return;
+        }
+        var warehouseId = $("#warehouseId").val();
+        if (warehouseId == 0) {
+            toastr.error('请选择仓库', '提示');
+            return;
+        }
+        //todo
+        var lossNumber = $("#baseNumber").val();
+        if (!checkRate(lossNumber)) {
+            toastr.error('请输入正整数', '提示');
+            return;
+        }
+        if (deleteTag) {
+            $.ajax({
+                type: "POST",
+                url: "productLoss?id=" + id + "&warehouseId=" + warehouseId + "&lossNumber=" + lossNumber,
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    if (msg.code == 200) {
+                        alert('操作成功')
+                        window.location.reload();
+                    } else {
+                        toastr.warning(msg.message);
+                    }
+                },
+                error: function () {
+                    toastr.error("系统异常！");
+                }
+            });
+        }
+    }
+
+    function inStorage(id, state, commendState) {
+        var deleteTag;
+        if (state == 2) {
+            deleteTag = confirm("确定入库?");
+        } else {
+            deleteTag = true;
+        }
+        if (!deleteTag) {
+            return;
+        }
+        var warehouseId = $("#inwarehouseId").val();
+        if (warehouseId == 0) {
+            toastr.error('请选择仓库', '提示');
+            return;
+        }
+        //todo
+        var number = $("#baseNumber").val();
+        if (!checkRate(number)) {
+            toastr.error('请输入正整数', '提示');
+            return;
+        }
+        if (deleteTag) {
+            $.ajax({
+                type: "POST",
+                url: "productInStorage?id=" + id + "&warehouseId=" + warehouseId + "&number=" + number,
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    if (msg.code == 200) {
+                        alert('操作成功')
+                        window.location.reload();
+                    } else {
+                        toastr.warning(msg.message);
+                    }
+                },
+                error: function () {
+                    toastr.error("系统异常！");
+                }
+            });
+        }
+    }
+
+    /*]]>*/
+
+</script>
+
+</body>
+
+</html>
