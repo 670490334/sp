@@ -58,8 +58,8 @@
         update sales_order_return_child set is_delete=1 where parent_id = #{id}
     </update>
 
-    <select id="getByProductId" resultMap="BaseResultMap" parameterType="integer">
-        select * from sales_order_return_child where product_id = #{productId}
+    <select id="getByProductIdAndParentId" resultMap="BaseResultMap" >
+        select * from sales_order_return_child where product_id = #{productId} and parent_id = #{parentId}
     </select>
 
     <update id="updatenumber" parameterType="com.jesper.hftc.entity.SalesOrderReturnChild">

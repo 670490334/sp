@@ -108,7 +108,7 @@
                                         <th width="8%">件数</th>
                                         <th width="8%">数量</th>
                                         <th width="8%">单价</th>
-                                        <th width="8%">合集金额</th>
+                                        <th width="8%">合计金额</th>
                                         <th width="8%">状态</th>
                                         <th width="8%">时间</th>
                                         <!--<th width="10%">推荐状态</th>-->
@@ -128,7 +128,8 @@
                                             <a th:href="@{'productDetail?id='+${product.productId}}" th:text="${product.productName}"></a>
                                         </td>
                                         <td>
-                                            <a th:href="@{'warehouseAdd?id='+${product.warehouseId}}" th:text="${product.ck}"></a>
+                                        <!-- th:href="@{'warehouseAdd?id='+${product.warehouseId}}"-->
+                                            <a  th:text="${product.ck}"></a>
                                         </td>
                                         <td th:text="${product.address}">Onions</td>
                                         <td th:text="${product.chmc}">Onions</td>

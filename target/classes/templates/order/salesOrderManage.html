@@ -69,7 +69,7 @@
                                     <!--                                    </div>-->
                                     <div class="col-sm-2 m-b-xs">
                                         <select name="ckcuStatus" id="ckcuStatus" class="form-control">
-                                            <option value="0" th:selected="${order.ckcuStatus==0}">未出库</option>
+                                            <option value="0" th:selected="${order.ckcuStatus==0}">出库中</option>
                                             <option value="1" th:selected="${order.ckcuStatus==1}">已出库</option>
                                         </select>
                                     </div>
@@ -140,17 +140,15 @@
 <!--                                        <td th:text="${o.number}">Onions</td>-->
 <!--                                        <td th:text="${o.ckcuStatus==0?'否':'是'}">Onions</td>-->
                                         <td th:text="${o.sellTimeStr}">Onions</td>
-                                        <td th:if="${o.ckcuStatus ==0}" style="color: red">未出库</td>
+                                        <td th:if="${o.ckcuStatus ==0}" style="color: red">出库中</td>
                                         <td th:if="${o.ckcuStatus ==1}" style="color: green">已出库</td>
                                         <td>
                                             <a th:href="@{'tosaleForm?id='+${o.id}}" title="查看详情">查看详情</a>
                                         </td>
-                                        <td th:if="${o.ckcuStatus == 0}">
+                                        <td >
                                             <a th:href="@{'salesOrderCk?id='+${o.id}}" title="操作">操作</a>
                                         </td>
-                                        <td th:if="${o.ckcuStatus == 1}">
-                                            已出库
-                                        </td>
+
                                         <td>
 
 <!--                                            <button class="btn btn-primary" th:onclick="'javascript:updateState(\''+${o.id}+'\',2,0);'">删除</button>-->

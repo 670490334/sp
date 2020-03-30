@@ -68,32 +68,51 @@
                                             class="form-control">
                                         <option value="0">--请选择仓库--</option>
                                         <option th:each="ic : ${s.warehousemanageList}" th:value="${ic.id}"
-                                                th:text="${ic.address}"
+                                                th:text="${ic.parentName+'-'+ic.address}"
                                                 th:selected="${s.productId==ic.productId}">分类
                                         </option>
                                     </select>
                                 </div>
                                 <div class="col-sm-2 m-b-xs">
-                                    <label class="" th:text="${s.productName }"></label>
+                                    <a th:href="@{'productEdit?id='+${s.productId}}" class=""
+                                       th:text="${s.productName }"></a>
                                 </div>
                                 <div class="col-sm-2 m-b-xs">
-                                    售出：<span  th:id="${'number'+s.id}" th:value="${s.number}" th:text="${s.number}">></span>
-                                     未出库：<span th:id="${'notCkNumber'+s.id}"  th:value="${(s.number - s.ckNumber) lt 0 ? 0:(s.number - s.ckNumber)}"
-                                          th:text="${(s.number - s.ckNumber) lt 0 ? 0:(s.number - s.ckNumber)}"></span>
+                                    售出：<span th:id="${'number'+s.id}" th:value="${s.number+s.returnNumber}"
+                                             th:text="${s.number+s.returnNumber}"></span>
+                                    &nbsp;&nbsp;退货：<span th:id="${'thnumber'+s.id}" th:value="${s.returnNumber}"
+                                                         th:text="${s.returnNumber}"></span><br />
+                                    已出库：<span th:id="${'cknumber'+s.id}" th:value="${s.ckNumber}"
+                                              th:text="${s.ckNumber}"></span>
+                                    <span hidden="hidden" th:id="${'notCkNumber'+s.id}"
+                                          th:value="${(s.number==null? 0:s.number) + (s.returnNumber==null ? 0:s.returnNumber)-(s.ckNumber==null ? 0:s.ckNumber)}"
+                                          th:text="${(s.number==null? 0:s.number) + (s.returnNumber==null ? 0:s.returnNumber)-(s.ckNumber==null ? 0:s.ckNumber)}"></span>
+
                                 </div>
                                 <div class="col-sm-2 m-b-xs">
-                                    <input th:id="${'baseNumber'+s.id}" name="baseNumber" onkeyup="value=value.replace(/[^\d.]/g,'')" class="form-control" type="text"
+                                    <input th:id="${'baseNumber'+s.id}" name="baseNumber"
+                                           onkeyup="value=value.replace(/[^\d.]/g,'')" class="form-control" type="text"
                                            placeholder="数量"/>
                                 </div>
-                                <div class="col-sm-2 m-b-xs">
-                                    <button class="btn btn-primary "
-                                            th:onclick="'javascript:sale('+${s.id}+',2,0);'">
-                                            出库
-                                    </button>
-                                    <button class="btn btn-primary "
-                                            th:onclick="'javascript:th('+${s.id}+',2,0);'">&nbsp;&nbsp;&nbsp;&nbsp;退货
-                                    </button>
-                                </div>
+
+                                <button style="width: 80px" th:if="${s.ckStatus!=1}" class="btn btn-primary "
+                                        th:onclick="'javascript:sale('+${s.id}+',2,0);'">
+                                    出库
+                                </button>
+                                <button style="width: 80px" th:if="${s.ckStatus==1}" disabled="disabled" class="btn btn-primary "
+                                       >
+                                    已出库
+                                </button>
+                                <button th:if="${s.number le 0 }" class="btn btn-primary "
+                                        disabled="disabled" th:onclick="'javascript:th('+${s.id}+',2,0);'">&nbsp;&nbsp;&nbsp;&nbsp;退完
+                                </button>
+                                <button th:if="${s.number gt 0 }" class="btn btn-primary "
+                                        th:onclick="'javascript:th('+${s.id}+',2,0);'">&nbsp;&nbsp;&nbsp;&nbsp;退货
+                                </button>
+                                <button class="btn btn-warning "
+                                        th:onclick="'javascript:ckwc('+${s.id}+',2,0);'">&nbsp;&nbsp;&nbsp;&nbsp;订单完成
+                                </button>
+
                             </div>
                         </div>
                     </div>
@@ -215,7 +234,7 @@
     /*<![CDATA[*/
     function sale(id, state, commendState) {
         var deleteTag;
-        var notCkNumberId = '#notCkNumber'+id;
+        var notCkNumberId = '#notCkNumber' + id;
         var notCkNumber = $(notCkNumberId).text();
 
         if (state == 2) {
@@ -226,14 +245,14 @@
         if (!deleteTag) {
             return;
         }
-        var warehouseIdId = '#warehouseId'+id;
+        var warehouseIdId = '#warehouseId' + id;
         var warehouseId = $(warehouseIdId).val();
         if (warehouseId == 0) {
             toastr.error('请选择仓库', '提示');
             return;
         }
         //todo
-        var baseNumberId = '#baseNumber'+id;
+        var baseNumberId = '#baseNumber' + id;
         var saleNumber = $(baseNumberId).val();
         if (!checkRate(saleNumber)) {
             toastr.error('请输入正整数', '提示');
@@ -266,7 +285,7 @@
 
     function th(id, state, commendState) {
         var deleteTag;
-        var numberId = '#number'+id;
+        var numberId = '#number' + id;
         var number = $(numberId).text();
 
         if (state == 2) {
@@ -284,7 +303,7 @@
         //     return;
         // }
         //todo
-        var baseNumberId = '#baseNumber'+id;
+        var baseNumberId = '#baseNumber' + id;
         var returnNumber = $(baseNumberId).val();
         if (!checkRate(returnNumber)) {
             toastr.error('请输入正整数', '提示');
@@ -298,7 +317,7 @@
         if (deleteTag) {
             $.ajax({
                 type: "POST",
-                url: "thSaleOrder?id=" + id+"&returnNumber=" + returnNumber,
+                url: "thSaleOrder?id=" + id + "&returnNumber=" + returnNumber,
                 contentType: "application/json; charset=utf-8",
                 success: function (msg) {
                     if (msg.code == 200) {
@@ -314,6 +333,37 @@
             });
         }
     }
+
+    function ckwc(id, state, commendState) {
+        var deleteTag;
+        if (state == 2) {
+            deleteTag = confirm("确定完成该商品出库?");
+        } else {
+            deleteTag = false;
+        }
+        if (!deleteTag) {
+            return;
+        }
+        if (deleteTag) {
+            $.ajax({
+                type: "POST",
+                url: "saleOrderCkwc?id=" + id,
+                contentType: "application/json; charset=utf-8",
+                success: function (msg) {
+                    if (msg.code == 200) {
+                        alert('操作成功')
+                        window.location.reload();
+                    } else {
+                        toastr.warning(msg.message);
+                    }
+                },
+                error: function () {
+                    toastr.error("系统异常！");
+                }
+            });
+        }
+    }
+
     /*]]>*/
 
 </script>

@@ -90,7 +90,7 @@ public class SalesOrderController {
         int rows = salesOrderService.count(salesOrder);
         if (pageCount == 0) pageCount = rows % pageSize == 0 ? (rows / pageSize) : (rows / pageSize) + 1;
         salesOrder.setStart((pageCurrent - 1) * pageSize);
-        salesOrder.setEnd(pageCurrent*pageSize);
+        salesOrder.setEnd(pageSize);
         List<SalesOrder> orderList = salesOrderService.getList(salesOrder);
 
         String pageHTML = PageUtil.getPageContent("salesOrderManage_{pageCurrent}_{pageSize}_{pageCount}", pageCurrent, pageSize, pageCount);

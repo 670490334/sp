@@ -59,7 +59,7 @@
             and p.create_time between #{purchaseOrder.beginTime} and #{purchaseOrder.endTime}
         </if>
         ORDER BY
-        p.create_time
+        p.create_time desc
         LIMIT #{start},#{end}
     </select>
 

@@ -31,7 +31,7 @@ public class WarehousemangeController {
         if (pageCurrent == 0) pageCurrent = 1;
         int rows = warehousemangeService.count(warehousemanage);
         if (pageCount == 0) pageCount = rows % pageSize == 0 ? (rows / pageSize) : (rows / pageSize) + 1;
-        List<Warehousemanage> list = warehousemangeService.getList(warehousemanage,(pageCurrent - 1) * pageSize, pageSize*pageCurrent);
+        List<Warehousemanage> list = warehousemangeService.getList(warehousemanage,(pageCurrent - 1) * pageSize, pageSize);
         String pageHTML = PageUtil.getPageContent("warehouseManage_{pageCurrent}_{pageSize}_{pageCount}", pageCurrent, pageSize, pageCount);
         model.addAttribute("pageHTML", pageHTML);
         model.addAttribute("warehousemanage", warehousemanage);
@@ -44,10 +44,10 @@ public class WarehousemangeController {
     public String warehouseEdit(Model model, Warehousemanage warehousemanage){
         if (warehousemanage.getId()!=null){
             Warehousemanage obj = warehousemangeService.getById(warehousemanage.getId());
-            model.addAttribute("warehousemanage",obj);
             if (obj==null){
                 model.addAttribute("msg","获取信息失败");
             }else{
+                model.addAttribute("warehousemanage",obj);
                 model.addAttribute("msg","");
             }
 
@@ -85,7 +85,7 @@ public class WarehousemangeController {
         int rows = warehousemangeService.parentcount(wareHouseParent);
         if (pageCount == 0) pageCount = rows % pageSize == 0 ? (rows / pageSize) : (rows / pageSize) + 1;
         wareHouseParent.setStart((pageCurrent-1)*pageSize);
-        wareHouseParent.setEnd(pageCurrent*pageSize);
+        wareHouseParent.setEnd(pageSize);
         List<WareHouseParent> list = warehousemangeService.getParentList(wareHouseParent);
         String pageHTML = PageUtil.getPageContent("warehouseParentManage_{pageCurrent}_{pageSize}_{pageCount}", pageCurrent, pageSize, pageCount);
         model.addAttribute("pageHTML", pageHTML);

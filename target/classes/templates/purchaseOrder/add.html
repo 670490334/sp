@@ -174,15 +174,32 @@
 </script>
 
 <script>
-    $(document).ready(function () {
-        $("#submitButton").click(function () {
-            if ($("#name").val() == "") {
-                toastr.error('请输入名称', '提示')
-                return;
-            }
+    // $(document).ready(function () {
+    //     $("#submitButton").click(function () {
+    //         if ($("#name").val() == "") {
+    //             toastr.error('请输入名称', '提示')
+    //             return;
+    //         }
+    //
+    //         $("#formTag").submit();
+    //     });
+    // });
+    //提交
+    $("#submitButton").click(function () {
+        if ($("#supplierId").val() == "0") {
+            toastr.error('请选择供应商', '提示');
+            return;
+        }
+        if ($("#number").val() == "") {
+            toastr.error('请输入数量', '提示');
+            return;
+        }
 
-            $("#formTag").submit();
-        });
+        if ($("#amount").val() == "") {
+            toastr.error('请输入价格', '提示');
+            return;
+        }
+        $("#formTag").submit();
     });
 
 </script>

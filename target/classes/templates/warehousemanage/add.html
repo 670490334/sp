@@ -61,7 +61,7 @@
                             </div>
                         </div>
                         <div class="ibox-content">
-                            <form id="formTag" action="Addwarehouse" method="POST" class="form-horizontal" enctype="multipart/form-data">
+                            <form th:if="${msg==''}" id="formTag" action="Addwarehouse" method="POST" class="form-horizontal" enctype="multipart/form-data">
                                 <input type="hidden" name="id" th:value="${warehousemanage.id}" />
 <!--                                <div class="form-group"><label class="col-sm-2 control-label">名称：</label>-->
 <!--                                    <div class="col-sm-10">-->
@@ -72,6 +72,21 @@
                                 <div class="form-group"><label class="col-sm-2 control-label">货位：</label>
                                     <div class="col-sm-10">
                                         <input id="address" name="address" type="text" class="form-control" th:value="${warehousemanage.address}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">库存：</label>
+                                    <div class="col-sm-10">
+                                        <input id="number" readonly="readonly" name="number" type="text" class="form-control" th:value="${warehousemanage.number}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">出售：</label>
+                                    <div class="col-sm-10">
+                                        <input id="saleNumber" readonly="readonly" name="saleNumber" type="text" class="form-control" th:value="${warehousemanage.saleNumber}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">出售：</label>
+                                    <div class="col-sm-10">
+                                        <input id="lossNumber" readonly="readonly" name="lossNumber" type="text" class="form-control" th:value="${warehousemanage.lossNumber}"/>
                                     </div>
                                 </div>
                                 <div class="hr-line-dashed"></div>

@@ -81,7 +81,7 @@ public class ProductController {
         int rows = productService.count(product);
         if (pageCount == 0) pageCount = rows % pageSize == 0 ? (rows / pageSize) : (rows / pageSize) + 1;
         product.setStart((pageCurrent - 1) * pageSize);
-        product.setEnd(pageCurrent * pageSize);
+        product.setEnd(pageSize);
         model.addAttribute("categoryList", categoryService.getCategoryList());
         model.addAttribute("productList", productService.getProductList(product));
         model.addAttribute("product", product);
@@ -99,7 +99,7 @@ public class ProductController {
         int rows = productService.count(product);
         if (pageCount == 0) pageCount = rows % pageSize == 0 ? (rows / pageSize) : (rows / pageSize) + 1;
         product.setStart((pageCurrent - 1) * pageSize);
-        product.setEnd(pageCurrent * pageSize);
+        product.setEnd(pageSize);
         model.addAttribute("categoryList", categoryService.getCategoryList());
         model.addAttribute("productList", productService.getProductList(product));
         model.addAttribute("product", product);
@@ -250,12 +250,15 @@ public class ProductController {
                                  @PathVariable Integer pageCount, ProductInstorge productInstorge) {
         if (pageSize == 0) pageSize = 20;
         if (pageCurrent == 0) pageCurrent = 1;
+        if (StringUtils.isEmpty(productInstorge.getChmc())){
+            productInstorge.setChmc(null);
+        }
         productInstorge.setBeginTime(DateUtil.strToDate(productInstorge.getBeginTimeStr()));
         productInstorge.setEndTime(DateUtil.strToDate(productInstorge.getEndTimeStr()));
         int rows = productService.count(productInstorge);
         if (pageCount == 0) pageCount = rows % pageSize == 0 ? (rows / pageSize) : (rows / pageSize) + 1;
         productInstorge.setStart((pageCurrent - 1) * pageSize);
-        productInstorge.setEnd(pageCurrent * pageSize);
+        productInstorge.setEnd(pageSize);
         List<ProductInstorge> productInstorgeList = productService.getProductInstorgeList(productInstorge);
 
         model.addAttribute("productInstorgeList", productInstorgeList);

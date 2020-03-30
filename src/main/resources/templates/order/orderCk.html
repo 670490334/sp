@@ -87,9 +87,7 @@
                                     <span hidden="hidden" th:id="${'notCkNumber'+s.id}"
                                           th:value="${(s.number==null? 0:s.number) + (s.returnNumber==null ? 0:s.returnNumber)-(s.ckNumber==null ? 0:s.ckNumber)}"
                                           th:text="${(s.number==null? 0:s.number) + (s.returnNumber==null ? 0:s.returnNumber)-(s.ckNumber==null ? 0:s.ckNumber)}"></span>
-                                    &nbsp;<span th:if="${s.ckStatus == 1}" style="color: #1cc09f">
-                                        已出库
-                                    </span>
+
                                 </div>
                                 <div class="col-sm-2 m-b-xs">
                                     <input th:id="${'baseNumber'+s.id}" name="baseNumber"
@@ -97,18 +95,22 @@
                                            placeholder="数量"/>
                                 </div>
 
-                                <button class="btn btn-primary "
+                                <button style="width: 80px" th:if="${s.ckStatus!=1}" class="btn btn-primary "
                                         th:onclick="'javascript:sale('+${s.id}+',2,0);'">
                                     出库
                                 </button>
+                                <button style="width: 80px" th:if="${s.ckStatus==1}" disabled="disabled" class="btn btn-primary "
+                                       >
+                                    已出库
+                                </button>
                                 <button th:if="${s.number le 0 }" class="btn btn-primary "
-                                        th:onclick="'javascript:th('+${s.id}+',2,0);'">&nbsp;&nbsp;&nbsp;&nbsp;退完
+                                        disabled="disabled" th:onclick="'javascript:th('+${s.id}+',2,0);'">&nbsp;&nbsp;&nbsp;&nbsp;退完
                                 </button>
                                 <button th:if="${s.number gt 0 }" class="btn btn-primary "
                                         th:onclick="'javascript:th('+${s.id}+',2,0);'">&nbsp;&nbsp;&nbsp;&nbsp;退货
                                 </button>
                                 <button class="btn btn-warning "
-                                        th:onclick="'javascript:ckwc('+${s.id}+',2,0);'">&nbsp;&nbsp;&nbsp;&nbsp;出库完成
+                                        th:onclick="'javascript:ckwc('+${s.id}+',2,0);'">&nbsp;&nbsp;&nbsp;&nbsp;订单完成
                                 </button>
 
                             </div>

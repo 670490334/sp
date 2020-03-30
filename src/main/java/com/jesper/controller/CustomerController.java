@@ -50,7 +50,7 @@ public class CustomerController {
         int rows = customerService.count(customer);
         if (pageCount == 0) pageCount = rows % pageSize == 0 ? (rows / pageSize) : (rows / pageSize) + 1;
         customer.setStart((pageCurrent - 1) * pageSize);
-        customer.setEnd(pageCount*pageSize);
+        customer.setEnd(pageSize);
         model.addAttribute("customerList", customerService.getAllCustomer(customer));
         model.addAttribute("customer",customer);
         String pageHTML = PageUtil.getPageContent("getProductList_{pageCurrent}_{pageSize}_{pageCount}?productName=" + customer.getName(), pageCurrent, pageSize, pageCount);

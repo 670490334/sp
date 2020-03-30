@@ -41,8 +41,26 @@
         </if>
         order by pi.create_time desc
         limit #{start},#{end}
-    </select>
 
+    </select>
+<!--
+select pi.*,p.product_name,w.w_name from product_instorge pi
+        left join product p on p.id = pi.product_id
+        left join warehousemanage wm on wm.id = pi.warehoue_id
+        left join warehouse_parent w on w.id = wm.parent_id
+        where pi.is_delete = 0
+        <if test=" beginTime != null and endTime != null">
+            and pi.create_time between #{beginTime} and #{endTime}
+        </if>
+        <if test="chmc != null">
+            and pi.chmc like concat('%', #{chmc, jdbcType=VARCHAR}, '%')
+        </if>
+        <if test=" state != null ">
+            and pi.state = #{state}
+        </if>
+        order by pi.create_time desc
+        limit #{start},#{end}
+-->
     <select id="count" resultType="integer" parameterType="com.jesper.hftc.entity.ProductInstorge">
         select count(*) from product_instorge where is_delete = 0
         <if test=" beginTime != null and endTime != null">

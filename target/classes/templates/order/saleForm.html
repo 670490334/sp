@@ -27,34 +27,34 @@
             th:text="${salesOrder.passBy}">陈俊龙</span></span></div>
     <span style="position: fixed ! important;left: 40%; top: 70px;">摘要：<span th:text="${salesOrder.zy}">XS-20201120-005</span></span>
     <div style="padding-top: 35px">
-        <table class="table table-bordered table-sm">
+        <table class="table table-sm">
             <!--<caption>边框表格布局</caption>-->
-            <thead>
+            <thead style="border: 1px solid black">
             <tr>
-                <th width="12%" height="20">商品名称</th>
-                <th width="8%">商品编号</th>
-                <th width="8%">规格</th>
-                <th width="5%">色号</th>
-                <th width="5%">单位</th>
-                <th width="7%">数量</th>
-                <th width="7%">单价</th>
-                <th width="7%">金额</th>
-                <th width="8%">件数</th>
-                <th width="7%">备注</th>
+                <th style="border: 1px solid black" width="20%" height="20">商品名称</th>
+                <th style="border: 1px solid black" width="12%">商品编号</th>
+                <th style="border: 1px solid black" width="8%">规格</th>
+                <th style="border: 1px solid black" width="8%">色号</th>
+                <th style="border: 1px solid black" width="5%">单位</th>
+                <th style="border: 1px solid black" width="6%">数量</th>
+                <th style="border: 1px solid black" width="8%">单价</th>
+                <th style="border: 1px solid black" width="8%">金额</th>
+                <th style="border: 1px solid black" width="8%">件数</th>
+                <th style="border: 1px solid black" width="8%">备注</th>
             </tr>
             </thead>
-            <tbody>
-            <tr style="height: 30px;" th:each="child:${salesOrder.childList}">
-                <td th:text="${child.product.productName == null ? '' : child.product.productName}">Tanmay</td>
-                <td th:text="${child.product.productNumber == null ? '' : child.product.productNumber}">Bangalore</td>
-                <td th:text="${child.product.specifications == null ? '' : child.product.specifications}">560001</td>
-                <td th:text="${child.product.color == null ? '' : child.product.color}">560001</td>
-                <td th:text="${child.product.unit == null ? '' : child.product.unit}">560001</td>
-                <td th:text="${child.number == null ? '' : child.number}">560001</td>
-                <td th:text="${child.price == null ? '' : child.price}">560001</td>
-                <td th:text="${child.amount == null ? '' : child.amount}">560001</td>
-                <td th:text="${child.jianshu == null ? '' : child.jianshu}">560001</td>
-                <td th:text="${child.remark == null ? '' : child.remark}">560001</td>
+            <tbody style="border: 1px solid black" >
+            <tr style="height: 30px;border: 1px solid black" th:each="child:${salesOrder.childList}">
+                <td style="border: 1px solid black"  th:text="${child.product.productName == null ? '' : child.product.productName}">Tanmay</td>
+                <td style="border: 1px solid black"  th:text="${child.product.productNumber == null ? '' : child.product.productNumber}">Bangalore</td>
+                <td style="border: 1px solid black" th:text="${child.product.specifications == null ? '' : child.product.specifications}">560001</td>
+                <td style="border: 1px solid black" th:text="${child.product.color == null ? '' : child.product.color}">560001</td>
+                <td style="border: 1px solid black" th:text="${child.product.unit == null ? '' : child.product.unit}">560001</td>
+                <td style="border: 1px solid black" th:text="${child.number == null ? '' : child.number}">560001</td>
+                <td style="border: 1px solid black" th:text="${child.price == null ? '' : child.price}">560001</td>
+                <td style="border: 1px solid black" th:text="${child.amount == null ? '' : child.amount}">560001</td>
+                <td style="border: 1px solid black" th:text="${child.jianshu == null ? '' : child.jianshu}">560001</td>
+                <td style="border: 1px solid black" th:text="${child.remark == null ? '' : child.remark}">560001</td>
             </tr>
             </tbody>
         </table>

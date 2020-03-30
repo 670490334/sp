@@ -48,7 +48,7 @@ public class PurchaseOrderController {
         if (pageCurrent == 0) pageCurrent = 1;
         int rows = purchaseOrderService.count(purchaseOrder);
         if (pageCount == 0) pageCount = rows % pageSize == 0 ? (rows / pageSize) : (rows / pageSize) + 1;
-        List<PurchaseOrder> list = purchaseOrderService.getList(purchaseOrder, (pageCurrent - 1) * pageSize, pageSize * pageCurrent);
+        List<PurchaseOrder> list = purchaseOrderService.getList(purchaseOrder, (pageCurrent - 1) * pageSize, pageSize);
 
         String pageHTML = PageUtil.getPageContent("purchaseOrderManage_{pageCurrent}_{pageSize}_{pageCount}", pageCurrent, pageSize, pageCount);
         model.addAttribute("pageHTML", pageHTML);

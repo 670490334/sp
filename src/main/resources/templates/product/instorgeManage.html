@@ -101,8 +101,8 @@
                                     <thead>
                                     <tr>
                                         <th width="5%">ID</th>
-                                        <th width="8%">商品ID</th>
-                                        <th width="8%">仓库id</th>
+                                        <th width="8%">商品</th>
+                                        <th width="8%">仓库</th>
                                         <th width="8%">货位</th>
                                         <th width="8%">存货名称</th>
                                         <th width="8%">件数</th>
@@ -128,7 +128,8 @@
                                             <a th:href="@{'productDetail?id='+${product.productId}}" th:text="${product.productName}"></a>
                                         </td>
                                         <td>
-                                            <a th:href="@{'warehouseAdd?id='+${product.warehouseId}}" th:text="${product.ck}"></a>
+                                        <!-- th:href="@{'warehouseAdd?id='+${product.warehouseId}}"-->
+                                            <a  th:text="${product.ck}"></a>
                                         </td>
                                         <td th:text="${product.address}">Onions</td>
                                         <td th:text="${product.chmc}">Onions</td>

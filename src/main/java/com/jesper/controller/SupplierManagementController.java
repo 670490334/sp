@@ -43,7 +43,7 @@ public class SupplierManagementController {
         if (pageCurrent == 0) pageCurrent = 1;
         int rows = supplierManagementService.count();
         if (pageCount == 0) pageCount = rows % pageSize == 0 ? (rows / pageSize) : (rows / pageSize) + 1;
-        List<SupplierManagement> list = supplierManagementService.getList((pageCurrent - 1) * pageSize, pageSize*pageCurrent);
+        List<SupplierManagement> list = supplierManagementService.getList((pageCurrent - 1) * pageSize, pageSize);
 
         String pageHTML = PageUtil.getPageContent("supplierManagementManage_{pageCurrent}_{pageSize}_{pageCount}", pageCurrent, pageSize, pageCount);
         model.addAttribute("pageHTML", pageHTML);
