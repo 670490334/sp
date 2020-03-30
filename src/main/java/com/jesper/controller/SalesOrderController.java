@@ -70,7 +70,7 @@ public class SalesOrderController {
         model.addAttribute("pageHTML", pageHTML);
         model.addAttribute("order", salesOrder);
         model.addAttribute("orderList", orderList);
-        return "order/salesOrderManage";
+        return "order/customerSalesOrderManage";
     }
 
     @GetMapping("user/salesOrderManage_{pageCurrent}_{pageSize}_{pageCount}")
